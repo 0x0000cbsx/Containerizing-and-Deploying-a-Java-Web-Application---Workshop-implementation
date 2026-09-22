@@ -1,0 +1,15 @@
+$ docker images | grep virtualization-lab
+0x0cbsx/virtualization-lab:1.0   3b8a1cbb5bdb        772MB          244MB   U    
+
+$ docker ps
+CONTAINER ID   IMAGE                            COMMAND               CREATED          STATUS          PORTS                                           NAMES
+770943ca17bb   0x0cbsx/virtualization-lab:1.0   "java -jar app.jar"   14 seconds ago   Up 14 seconds   0.0.0.0:34002->6000/tcp, [::]:34002->6000/tcp   virtualization-lab-3
+5753979c9d55   0x0cbsx/virtualization-lab:1.0   "java -jar app.jar"   14 seconds ago   Up 14 seconds   0.0.0.0:34001->6000/tcp, [::]:34001->6000/tcp   virtualization-lab-2
+b3642dc37ee9   0x0cbsx/virtualization-lab:1.0   "java -jar app.jar"   25 seconds ago   Up 25 seconds   0.0.0.0:34000->6000/tcp, [::]:34000->6000/tcp   virtualization-lab-1
+
+$ curl http://localhost:34000/greeting?name=Container1
+Hello, Container1!
+$ curl http://localhost:34001/greeting?name=Container2
+Hello, Container2!
+$ curl http://localhost:34002/greeting?name=Container3
+Hello, Container3!

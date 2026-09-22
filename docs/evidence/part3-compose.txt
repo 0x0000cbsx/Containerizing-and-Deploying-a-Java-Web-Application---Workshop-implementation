@@ -1,0 +1,26 @@
+$ docker compose ps
+NAME                 IMAGE                                                                               COMMAND               SERVICE   CREATED          STATUS          PORTS
+virtualization-web   containerizing-and-deploying-a-java-web-application---workshop-implementation-web   "java -jar app.jar"   web       11 seconds ago   Up 10 seconds   0.0.0.0:8087->6000/tcp, [::]:8087->6000/tcp
+
+$ docker compose logs web
+virtualization-web  | 
+virtualization-web  |   .   ____          _            __ _ _
+virtualization-web  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+virtualization-web  | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+virtualization-web  |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+virtualization-web  |   '  |____| .__|_| |_|_| |_\__, | / / / /
+virtualization-web  |  =========|_|==============|___/=/_/_/_/
+virtualization-web  | 
+virtualization-web  |  :: Spring Boot ::                (v4.1.1)
+virtualization-web  | 
+virtualization-web  | 2026-09-22T14:50:10.465Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Starting RestServiceApplication v1.0.0 using Java 21.0.12.1 with PID 1 (/app/app.jar started by root in /app)
+virtualization-web  | 2026-09-22T14:50:10.468Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : No active profile set, falling back to 1 default profile: "default"
+virtualization-web  | 2026-09-22T14:50:11.022Z  INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 6000 (http)
+virtualization-web  | 2026-09-22T14:50:11.035Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+virtualization-web  | 2026-09-22T14:50:11.035Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+virtualization-web  | 2026-09-22T14:50:11.052Z  INFO 1 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 546 ms
+virtualization-web  | 2026-09-22T14:50:11.283Z  INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 6000 (http) with context path '/'
+virtualization-web  | 2026-09-22T14:50:11.296Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Started RestServiceApplication in 1.103 seconds (process running for 1.455)
+
+$ curl http://localhost:8087/greeting?name=Compose
+Hello, Compose!

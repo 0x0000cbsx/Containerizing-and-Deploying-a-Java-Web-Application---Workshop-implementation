@@ -1,0 +1,25 @@
+$ docker build -t 0x0cbsx/virtualization-lab:1.0 .
+[+] Building ...
+ => naming to docker.io/0x0cbsx/virtualization-lab:1.0                   done
+
+$ docker tag 0x0cbsx/virtualization-lab:1.0 0x0cbsx/virtualization-lab:latest
+
+$ docker push 0x0cbsx/virtualization-lab:1.0
+The push refers to repository [docker.io/0x0cbsx/virtualization-lab]
+1.0: digest: sha256:3b8a1cbb5bdbb7b998f8d07ab7d2490360da8807e67627b9de15bbef4b93ff3b size: 856
+
+$ docker push 0x0cbsx/virtualization-lab:latest
+The push refers to repository [docker.io/0x0cbsx/virtualization-lab]
+latest: digest: sha256:3b8a1cbb5bdbb7b998f8d07ab7d2490360da8807e67627b9de15bbef4b93ff3b size: 856
+
+# Verification (public API, no auth required -> repo is public):
+$ curl -s https://hub.docker.com/v2/repositories/0x0cbsx/virtualization-lab/tags
+{
+  "count": 2,
+  "results": [
+    { "name": "latest", "full_size": 243587950, "tag_status": "active" },
+    { "name": "1.0",    "full_size": 243587950, "tag_status": "active" }
+  ]
+}
+
+Repository URL: https://hub.docker.com/r/0x0cbsx/virtualization-lab
