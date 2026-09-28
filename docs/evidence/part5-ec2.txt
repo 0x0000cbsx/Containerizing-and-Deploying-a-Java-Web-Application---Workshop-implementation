@@ -1,0 +1,78 @@
+$ cat /etc/os-release
+NAME="Amazon Linux"
+VERSION="2023"
+ID="amzn"
+ID_LIKE="fedora"
+VERSION_ID="2023"
+PLATFORM_ID="platform:al2023"
+PRETTY_NAME="Amazon Linux 2023.12.20260918"
+ANSI_COLOR="0;33"
+CPE_NAME="cpe:2.3:o:amazon:amazon_linux:2023"
+HOME_URL="https://aws.amazon.com/linux/amazon-linux-2023/"
+DOCUMENTATION_URL="https://docs.aws.amazon.com/linux/"
+SUPPORT_URL="https://aws.amazon.com/premiumsupport/"
+BUG_REPORT_URL="https://github.com/amazonlinux/amazon-linux-2023"
+VENDOR_NAME="AWS"
+VENDOR_URL="https://aws.amazon.com/"
+SUPPORT_END="2029-06-30"
+
+$ docker --version
+Docker version 25.0.14, build 0bab007
+
+$ docker pull 0x0cbsx/virtualization-lab:1.0
+1.0: Pulling from 0x0cbsx/virtualization-lab
+0f0cc63a5845: Pulling fs layer
+88c3afdc4eda: Pulling fs layer
+a72ac8e06fbb: Pulling fs layer
+be7a297364f0: Pulling fs layer
+be7a297364f0: Waiting
+a72ac8e06fbb: Verifying Checksum
+a72ac8e06fbb: Download complete
+be7a297364f0: Verifying Checksum
+be7a297364f0: Download complete
+0f0cc63a5845: Verifying Checksum
+0f0cc63a5845: Download complete
+88c3afdc4eda: Verifying Checksum
+88c3afdc4eda: Download complete
+0f0cc63a5845: Pull complete
+88c3afdc4eda: Pull complete
+a72ac8e06fbb: Pull complete
+be7a297364f0: Pull complete
+Digest: sha256:3b8a1cbb5bdbb7b998f8d07ab7d2490360da8807e67627b9de15bbef4b93ff3b
+Status: Downloaded newer image for 0x0cbsx/virtualization-lab:1.0
+docker.io/0x0cbsx/virtualization-lab:1.0
+
+$ docker run -d --name virtualization-lab --restart unless-stopped -e PORT=6000 -p 8080:6000 0x0cbsx/virtualization-lab:1.0
+1037154c0b87838c54fecadca4b90a65a73848537d4cfbe62130967e86229d50
+
+$ docker ps
+CONTAINER ID   IMAGE                            COMMAND               CREATED          STATUS          PORTS                                       NAMES
+1037154c0b87   0x0cbsx/virtualization-lab:1.0   "java -jar app.jar"   11 seconds ago   Up 10 seconds   0.0.0.0:8080->6000/tcp, :::8080->6000/tcp   virtualization-lab
+
+$ docker logs virtualization-lab
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-09-28T04:26:48.473Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Starting RestServiceApplication v1.0.0 using Java 21.0.12.1 with PID 1 (/app/app.jar started by root in /app)
+2026-09-28T04:26:48.479Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : No active profile set, falling back to 1 default profile: "default"
+2026-09-28T04:26:50.088Z  INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 6000 (http)
+2026-09-28T04:26:50.116Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-09-28T04:26:50.117Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-09-28T04:26:50.167Z  INFO 1 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1583 ms
+2026-09-28T04:26:50.878Z  INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 6000 (http) with context path '/'
+2026-09-28T04:26:50.897Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Started RestServiceApplication in 3.45 seconds (process running for 4.365)
+
+$ curl -s http://localhost:8080/greeting?name=AWS
+Hello, AWS!
+Public DNS: ec2-98-92-41-152.compute-1.amazonaws.com
+
+# Verificación externa (desde la máquina del operador, fuera de AWS):
+$ curl "http://ec2-98-92-41-152.compute-1.amazonaws.com:8080/greeting?name=AWS"
+Hello, AWS!

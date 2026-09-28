@@ -1,8 +1,27 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: virtualization-web
     environment:
       PORT: 6000
+      SPRING_DATA_MONGODB_URI: mongodb://db:27017/workshop
     ports:
       - "8087:6000"
+    depends_on:
+      - db
+
+  db:
+    image: mongo:8.2   # MongoDB 8; 8.2 is the line that runs on Linux kernels >= 6.19 (SERVER-121912)
+    container_name: virtualization-db
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    ports:
+      - "27017:27017"
+    command: mongod
+
+volumes:
+  mongodb:
+  mongodb_config:

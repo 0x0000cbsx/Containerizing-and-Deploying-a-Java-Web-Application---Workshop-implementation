@@ -1,6 +1,7 @@
 $ docker compose ps
-NAME                 IMAGE                                                                               COMMAND               SERVICE   CREATED          STATUS          PORTS
-virtualization-web   containerizing-and-deploying-a-java-web-application---workshop-implementation-web   "java -jar app.jar"   web       11 seconds ago   Up 10 seconds   0.0.0.0:8087->6000/tcp, [::]:8087->6000/tcp
+NAME                 IMAGE                                                                               COMMAND                  SERVICE   CREATED          STATUS          PORTS
+virtualization-db    mongo:8.2                                                                           "docker-entrypoint.s…"   db        16 seconds ago   Up 15 seconds   0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
+virtualization-web   containerizing-and-deploying-a-java-web-application---workshop-implementation-web   "java -jar app.jar"      web       15 seconds ago   Up 15 seconds   0.0.0.0:8087->6000/tcp, [::]:8087->6000/tcp
 
 $ docker compose logs web
 virtualization-web  | 
@@ -13,14 +14,78 @@ virtualization-web  |  =========|_|==============|___/=/_/_/_/
 virtualization-web  | 
 virtualization-web  |  :: Spring Boot ::                (v4.1.1)
 virtualization-web  | 
-virtualization-web  | 2026-09-22T14:50:10.465Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Starting RestServiceApplication v1.0.0 using Java 21.0.12.1 with PID 1 (/app/app.jar started by root in /app)
-virtualization-web  | 2026-09-22T14:50:10.468Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : No active profile set, falling back to 1 default profile: "default"
-virtualization-web  | 2026-09-22T14:50:11.022Z  INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 6000 (http)
-virtualization-web  | 2026-09-22T14:50:11.035Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-virtualization-web  | 2026-09-22T14:50:11.035Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
-virtualization-web  | 2026-09-22T14:50:11.052Z  INFO 1 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 546 ms
-virtualization-web  | 2026-09-22T14:50:11.283Z  INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 6000 (http) with context path '/'
-virtualization-web  | 2026-09-22T14:50:11.296Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Started RestServiceApplication in 1.103 seconds (process running for 1.455)
+virtualization-web  | 2026-09-28T04:20:09.942Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Starting RestServiceApplication v1.0.0 using Java 21.0.12.1 with PID 1 (/app/app.jar started by root in /app)
+virtualization-web  | 2026-09-28T04:20:09.945Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : No active profile set, falling back to 1 default profile: "default"
+virtualization-web  | 2026-09-28T04:20:10.554Z  INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 6000 (http)
+virtualization-web  | 2026-09-28T04:20:10.566Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+virtualization-web  | 2026-09-28T04:20:10.566Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+virtualization-web  | 2026-09-28T04:20:10.596Z  INFO 1 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 616 ms
+virtualization-web  | 2026-09-28T04:20:10.824Z  INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 6000 (http) with context path '/'
+virtualization-web  | 2026-09-28T04:20:10.834Z  INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Started RestServiceApplication in 1.166 seconds (process running for 1.56)
 
-$ curl http://localhost:8087/greeting?name=Compose
+$ docker compose logs --tail 20 db
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.387+00:00"},"s":"I",  "c":"NETWORK",  "id":4915702, "ctx":"initandlisten","msg":"Updated wire specification","attr":{"oldSpec":{"incomingExternalClient":{"minWireVersion":0,"maxWireVersion":27},"incomingInternalClient":{"minWireVersion":27,"maxWireVersion":27},"outgoing":{"minWireVersion":27,"maxWireVersion":27},"isInternalClient":true},"newSpec":{"incomingExternalClient":{"minWireVersion":0,"maxWireVersion":27},"incomingInternalClient":{"minWireVersion":27,"maxWireVersion":27},"outgoing":{"minWireVersion":27,"maxWireVersion":27},"isInternalClient":true}}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.387+00:00"},"s":"I",  "c":"REPL",     "id":5853300, "ctx":"initandlisten","msg":"current featureCompatibilityVersion value","attr":{"featureCompatibilityVersion":"8.2","context":"startup"}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.387+00:00"},"s":"I",  "c":"STORAGE",  "id":5071100, "ctx":"initandlisten","msg":"Clearing temp directory"}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.387+00:00"},"s":"I",  "c":"STORAGE",  "id":10682200,"ctx":"initandlisten","msg":"Dropping spill idents","attr":{"numIdents":0}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.387+00:00"},"s":"I",  "c":"CONTROL",  "id":6608200, "ctx":"initandlisten","msg":"Initializing cluster server parameters from disk"}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.387+00:00"},"s":"I",  "c":"CONTROL",  "id":20536,   "ctx":"initandlisten","msg":"Flow Control is enabled on this deployment"}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.387+00:00"},"s":"I",  "c":"FTDC",     "id":20625,   "ctx":"initandlisten","msg":"Initializing full-time diagnostic data capture","attr":{"dataDirectory":"/data/db/diagnostic.data"}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.389+00:00"},"s":"I",  "c":"STORAGE",  "id":20320,   "ctx":"initandlisten","msg":"createCollection","attr":{"namespace":"local.startup_log","uuidDisposition":"generated","uuid":{"uuid":{"$uuid":"c01bde01-f1ce-4fd8-97cf-b7be414a32e5"}},"options":{"capped":true,"size":10485760}}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.405+00:00"},"s":"I",  "c":"INDEX",    "id":20345,   "ctx":"initandlisten","msg":"Index build: done building","attr":{"buildUUID":null,"collectionUUID":{"uuid":{"$uuid":"c01bde01-f1ce-4fd8-97cf-b7be414a32e5"}},"namespace":"local.startup_log","index":"_id_","ident":"index-0344315a-fed6-43e0-b3a6-78d48b13bc77","collectionIdent":"collection-107d915c-c462-49d4-8e70-2e4bcf38781f","commitTimestamp":null}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.405+00:00"},"s":"I",  "c":"REPL",     "id":6015317, "ctx":"initandlisten","msg":"Setting new configuration state","attr":{"newState":"ConfigReplicationDisabled","oldState":"ConfigPreStart"}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.405+00:00"},"s":"I",  "c":"STORAGE",  "id":22262,   "ctx":"initandlisten","msg":"Timestamp monitor starting"}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.405+00:00"},"s":"I",  "c":"STORAGE",  "id":7333401, "ctx":"initandlisten","msg":"Starting the DiskSpaceMonitor"}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.406+00:00"},"s":"I",  "c":"NETWORK",  "id":23015,   "ctx":"listener","msg":"Listening on","attr":{"address":"/tmp/mongodb-27017.sock"}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.406+00:00"},"s":"I",  "c":"NETWORK",  "id":23015,   "ctx":"listener","msg":"Listening on","attr":{"address":"0.0.0.0:27017"}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.406+00:00"},"s":"I",  "c":"NETWORK",  "id":23016,   "ctx":"listener","msg":"Waiting for connections","attr":{"port":27017,"ssl":"off"}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.406+00:00"},"s":"I",  "c":"CONTROL",  "id":8423403, "ctx":"initandlisten","msg":"mongod startup complete","attr":{"Summary of time elapsed":{"Startup from clean shutdown?":true,"Statistics":{"setUpPeriodicRunnerMillis":0,"setUpOCSPMillis":0,"setUpTransportLayerMillis":7,"initSyncCrashRecoveryMillis":0,"createLockFileMillis":0,"getStorageEngineMetadataMillis":0,"createStorageEngineMillis":124,"writePIDMillis":0,"writeNewMetadataMillis":0,"initializeFCVForIndexMillis":1,"dropAbandonedIdentsMillis":0,"standaloneClusterParamsMillis":0,"userAndRolesGraphMillis":0,"waitForMajorityServiceMillis":0,"startUpReplCoordMillis":0,"recoverChangeStreamMillis":0,"logStartupOptionsMillis":0,"startUpTransportLayerMillis":0,"initAndListenTotalMillis":177}}}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.407+00:00"},"s":"I",  "c":"CONTROL",  "id":20712,   "ctx":"LogicalSessionCacheReap","msg":"Sessions collection is not set up; waiting until next sessions reap interval","attr":{"error":"NamespaceNotFound: config.system.sessions does not exist"}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.408+00:00"},"s":"I",  "c":"STORAGE",  "id":20320,   "ctx":"LogicalSessionCacheRefresh","msg":"createCollection","attr":{"namespace":"config.system.sessions","uuidDisposition":"generated","uuid":{"uuid":{"$uuid":"8f0bf97e-a41a-466c-a32d-be21bc897798"}},"options":{}}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.433+00:00"},"s":"I",  "c":"INDEX",    "id":20345,   "ctx":"LogicalSessionCacheRefresh","msg":"Index build: done building","attr":{"buildUUID":null,"collectionUUID":{"uuid":{"$uuid":"8f0bf97e-a41a-466c-a32d-be21bc897798"}},"namespace":"config.system.sessions","index":"_id_","ident":"index-35c421be-dedd-4892-abdf-00ac0a733bf3","collectionIdent":"collection-bc126ebc-565a-4e54-8507-07292d0a4cc9","commitTimestamp":null}}
+virtualization-db  | {"t":{"$date":"2026-09-28T04:20:09.433+00:00"},"s":"I",  "c":"INDEX",    "id":20345,   "ctx":"LogicalSessionCacheRefresh","msg":"Index build: done building","attr":{"buildUUID":null,"collectionUUID":{"uuid":{"$uuid":"8f0bf97e-a41a-466c-a32d-be21bc897798"}},"namespace":"config.system.sessions","index":"lsidTTLIndex","ident":"index-fd290517-4683-4735-a835-84254146a3d3","collectionIdent":"collection-bc126ebc-565a-4e54-8507-07292d0a4cc9","commitTimestamp":null}}
+
+$ curl -s http://localhost:8087/greeting?name=Compose
 Hello, Compose!
+
+$ docker compose exec db mongosh --quiet --eval "<show dbs; use workshop; insertOne; find>"
+{
+  acknowledged: true,
+  insertedId: ObjectId('6ab9eb08b185a10b0cd66c5a')
+}
+[
+  {
+    _id: ObjectId('6ab9eb08b185a10b0cd66c5a'),
+    message: 'Hello from Docker Compose'
+  }
+]
+[
+  'admin',
+  'config',
+  'local',
+  'workshop'
+]
+
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     containerizing-and-deploying-a-java-web-application---workshop-implementation_mongodb
+local     containerizing-and-deploying-a-java-web-application---workshop-implementation_mongodb_config
+
+$ docker compose down
+ Container virtualization-web Stopping 
+ Container virtualization-web Stopped 
+ Container virtualization-web Removing 
+ Container virtualization-web Removed 
+ Container virtualization-db Stopping 
+ Container virtualization-db Stopped 
+ Container virtualization-db Removing 
+ Container virtualization-db Removed 
+ Network containerizing-and-deploying-a-java-web-application---workshop-implementation_default Removing 
+ Network containerizing-and-deploying-a-java-web-application---workshop-implementation_default Removed 
+
+# Los volúmenes sobreviven a 'docker compose down':
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     containerizing-and-deploying-a-java-web-application---workshop-implementation_mongodb
+local     containerizing-and-deploying-a-java-web-application---workshop-implementation_mongodb_config
+
